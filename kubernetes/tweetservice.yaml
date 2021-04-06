@@ -19,16 +19,16 @@ spec:
           imagePullPolicy: Always
           image: imadelfetouh99/tweetservice:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8082
           env:
             - name: TWEETSERVICE_MYSQL_MASTER_HOST
-              value: mysql-tweetservic-master-service
+              value: mysql-tweetservice-master-service
             - name: TWEETSERVICE_MYSQL_REPLICA_HOST
-              value: mysql-tweetservic-replica-service
+              value: mysql-tweetservice-replica-service
             - name: TWEETSERVICE_MYSQL_MASTER_PORT
-              value: 3306
-	    - name: TWEETSERVICE_MYSQL_REPLICA_PORT
-              value: 3308
+              value: '3306'
+            - name: TWEETSERVICE_MYSQL_REPLICA_PORT
+              value: '3308'
             - name: MYSQL_USER
               value: root
             - name: MYSQL_PASS
@@ -40,7 +40,8 @@ metadata:
   name: tweetservice-service
 spec:
   selector:
-    app: authservice
+    app: tweetservice
+  type: LoadBalancer
   ports:
     - port: 8082
       targetPort: 8080
