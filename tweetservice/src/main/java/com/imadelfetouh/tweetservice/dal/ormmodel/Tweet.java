@@ -7,6 +7,10 @@ import java.io.Serializable;
 @Table(name = "tweet")
 public class Tweet implements Serializable {
 
+    public Tweet() {
+
+    }
+
     public Tweet(String tweetId, String content, Long date, String time, Integer likes, User user) {
         this.tweetId = tweetId;
         this.content = content;

@@ -20,7 +20,7 @@ public class TweetResource {
     private TweetDal tweetDal;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TweetDTO>> getTweets() {
+    public ResponseEntity<List<TweetDTO>> getTweets(@CookieValue("jwt-token") String jwtToken) {
         ResponseModel<List<TweetDTO>> responseModel = tweetDal.getTweets();
 
         if(responseModel.getResponseType().equals(ResponseType.EMPTY)) {

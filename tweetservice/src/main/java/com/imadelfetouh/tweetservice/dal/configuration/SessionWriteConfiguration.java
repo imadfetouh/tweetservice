@@ -1,9 +1,6 @@
 package com.imadelfetouh.tweetservice.dal.configuration;
 
-import com.imadelfetouh.tweetservice.dal.ormmodel.Trend;
-import com.imadelfetouh.tweetservice.dal.ormmodel.Tweet;
-import com.imadelfetouh.tweetservice.dal.ormmodel.TweetTrend;
-import com.imadelfetouh.tweetservice.dal.ormmodel.User;
+import com.imadelfetouh.tweetservice.dal.ormmodel.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,9 +16,9 @@ public class SessionWriteConfiguration {
         Configuration configuration = new Configuration();
         Properties properties = new Properties();
         properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-        properties.put(Environment.URL, "jdbc:mysql://"+System.getenv("TWEETSERVICE_MYSQL_MASTER_HOST")+":3306/tweetservice?createDatabaseIfNotExist=true");
-        properties.put(Environment.USER, System.getenv("TWEETSERVICE_MYSQL_USER"));
-        properties.put(Environment.PASS, System.getenv("TWEETSERVICE_MYSQL_PASS"));
+        properties.put(Environment.URL, "jdbc:mysql://"+System.getenv("TWEETSERVICE_MYSQL_MASTER_HOST")+":"+System.getenv("TWEETSERVICE_MYSQL_MASTER_PORT")+"/tweetservice?createDatabaseIfNotExist=true");
+        properties.put(Environment.USER, System.getenv("MYSQL_USER"));
+        properties.put(Environment.PASS, System.getenv("MYSQL_PASS"));
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MariaDBDialect");
         properties.put(Environment.SHOW_SQL, "true");
         properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
@@ -36,6 +33,7 @@ public class SessionWriteConfiguration {
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Trend.class);
         configuration.addAnnotatedClass(TweetTrend.class);
+        configuration.addAnnotatedClass(Following.class);
 
         sessionFactory = configuration.configure().buildSessionFactory();
     }
