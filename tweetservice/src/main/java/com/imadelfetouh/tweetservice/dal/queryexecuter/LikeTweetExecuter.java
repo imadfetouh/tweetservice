@@ -7,11 +7,11 @@ import org.hibernate.Session;
 
 import javax.persistence.Query;
 
-public class LikeTweetExecutor implements QueryExecuter<Void> {
+public class LikeTweetExecuter implements QueryExecuter<Void> {
 
     private String tweetId;
 
-    public LikeTweetExecutor(String tweetId) {
+    public LikeTweetExecuter(String tweetId) {
         this.tweetId = tweetId;
     }
 

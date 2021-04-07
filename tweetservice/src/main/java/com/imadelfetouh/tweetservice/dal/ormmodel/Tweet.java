@@ -1,5 +1,7 @@
 package com.imadelfetouh.tweetservice.dal.ormmodel;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,8 +13,7 @@ public class Tweet implements Serializable {
 
     }
 
-    public Tweet(String tweetId, String content, Long date, String time, Integer likes, User user) {
-        this.tweetId = tweetId;
+    public Tweet(String content, Long date, String time, Integer likes, User user) {
         this.content = content;
         this.date = date;
         this.time = time;
@@ -21,10 +22,8 @@ public class Tweet implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "tweetId")
     private String tweetId;
 
@@ -43,10 +42,6 @@ public class Tweet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_Id", referencedColumnName = "userId")
     private User user;
-
-    public Integer getId() {
-        return id;
-    }
 
     public String getTweetId() {
         return tweetId;

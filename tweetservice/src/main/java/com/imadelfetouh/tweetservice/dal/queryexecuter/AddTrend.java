@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class AddTrendExecutor {
+public class AddTrend {
 
-    private static final AddTrendExecutor addTrendExecutor = new AddTrendExecutor();
+    private static final AddTrend addTrend = new AddTrend();
 
-    private AddTrendExecutor() {
+    private AddTrend() {
 
     }
 
-    public static AddTrendExecutor getInstance() {
-        return addTrendExecutor;
+    public static AddTrend getInstance() {
+        return addTrend;
     }
 
     public void addTrends(Tweet tweet, Session session) {
@@ -46,7 +46,7 @@ public class AddTrendExecutor {
     }
 
     private List<String> getTrendsFromTweet(String content) {
-        String parts[] = content.split(" ");
+        String[] parts = content.split(" ");
 
         return Arrays.stream(parts).filter(p -> p.startsWith("#", 0)).collect(Collectors.toList());
     }

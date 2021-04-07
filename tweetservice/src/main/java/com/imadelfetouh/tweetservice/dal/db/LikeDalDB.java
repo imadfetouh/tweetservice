@@ -2,7 +2,7 @@ package com.imadelfetouh.tweetservice.dal.db;
 
 import com.imadelfetouh.tweetservice.dal.configuration.Executer;
 import com.imadelfetouh.tweetservice.dal.configuration.SessionType;
-import com.imadelfetouh.tweetservice.dal.queryexecuter.LikeTweetExecutor;
+import com.imadelfetouh.tweetservice.dal.queryexecuter.LikeTweetExecuter;
 import com.imadelfetouh.tweetservice.dalinterface.LikeDal;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import org.springframework.stereotype.Repository;
@@ -18,6 +18,6 @@ public class LikeDalDB implements LikeDal {
 
     @Override
     public ResponseModel<Void> likeTweet(String tweetId) {
-        return executer.execute(new LikeTweetExecutor(tweetId));
+        return executer.execute(new LikeTweetExecuter(tweetId));
     }
 }
