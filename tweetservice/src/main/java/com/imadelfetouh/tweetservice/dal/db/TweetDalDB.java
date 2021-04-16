@@ -16,9 +16,9 @@ import java.util.List;
 public class TweetDalDB implements TweetDal {
 
     @Override
-    public ResponseModel<List<TweetDTO>> getTweets() {
+    public ResponseModel<List<TweetDTO>> getTweets(String userId) {
         Executer<List<TweetDTO>> executer = new Executer<>(SessionType.READ);
-        return executer.execute(new GetTweetsExecuter());
+        return executer.execute(new GetTweetsExecuter(userId));
     }
 
     @Override

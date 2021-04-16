@@ -5,10 +5,7 @@ import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("like")
@@ -17,8 +14,8 @@ public class LikeResource {
     @Autowired
     private LikeDal likeDal;
 
-    @PutMapping
-    public ResponseEntity<String> likeTweet(@RequestBody String tweetId) {
+    @PutMapping("/{tweetId}")
+    public ResponseEntity<Void> likeTweet(@PathVariable("tweetId") String tweetId) {
         ResponseModel<Void> responseModel = likeDal.likeTweet(tweetId);
 
         if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {

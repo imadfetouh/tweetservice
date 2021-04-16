@@ -36,8 +36,7 @@ public class AddTrend {
 
             }
             catch (NoResultException e) {
-                String trendId = UUID.randomUUID().toString();
-                Trend newTrend = new Trend(trendId, trend);
+                Trend newTrend = new Trend(trend);
                 session.persist(newTrend);
 
                 add(tweet, newTrend, session);

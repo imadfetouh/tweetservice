@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TweetDal {
 
-    ResponseModel<List<TweetDTO>> getTweets();
+    ResponseModel<List<TweetDTO>> getTweets(String userId);
 
     ResponseModel<Void> addTweet(NewTweetDTO newTweetDTO);
 }

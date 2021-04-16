@@ -12,20 +12,21 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetTweetsExecuter implements QueryExecuter<List<TweetDTO>> {
+public class GetTweetTrendExecuter implements QueryExecuter<List<TweetDTO>> {
 
-    private String userId;
+    private String trend;
 
-    public GetTweetsExecuter(String userId) {
-        this.userId = userId;
+    public GetTweetTrendExecuter(String trend) {
+        this.trend = trend;
     }
 
     @Override
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT t FROM Tweet t JOIN FETCH t.user WHERE t.user.userId IN (SELECT f.userFollowing.userId FROM Following f WHERE f.user.userId = :userId)");
-        query.setParameter("userId", userId);
+        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN FETCH tt.tweet.user WHERE tt.trend.name = :trend");
+        query.setParameter("trend", trend);
+
         List<Tweet> tweets = query.getResultList();
         List<TweetDTO> tweetDTOS = new ArrayList<>();
 

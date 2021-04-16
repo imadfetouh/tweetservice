@@ -25,7 +25,7 @@ public class DateTime {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        return calendar.getTimeInMillis();
+        return calendar.getTimeInMillis() / 1000L;
     }
 
     public String getCurrentTime(){
@@ -33,6 +33,5 @@ public class DateTime {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         return simpleDateFormat.format(calendar.getTime());
     }
-
 
 }

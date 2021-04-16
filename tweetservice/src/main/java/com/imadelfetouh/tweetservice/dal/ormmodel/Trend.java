@@ -1,5 +1,7 @@
 package com.imadelfetouh.tweetservice.dal.ormmodel;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,16 +13,13 @@ public class Trend implements Serializable {
 
     }
 
-    public Trend(String trendId, String name) {
-        this.trendId = trendId;
+    public Trend(String name) {
         this.name = name;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "trendId")
     private String trendId;
 
