@@ -8,6 +8,16 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
 
+    public User() {
+
+    }
+
+    public User(String userId, String username, String photo) {
+        this.userId = userId;
+        this.username = username;
+        this.photo = photo;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,12 +29,16 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "userphoto")
-    private String userphoto;
+    @Column(name = "photo")
+    private String photo;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private List<Following> followings;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private List<Tweet> tweets;
 
     public String getUserId() {
         return userId;
@@ -34,8 +48,8 @@ public class User implements Serializable {
         return username;
     }
 
-    public String getUserphoto() {
-        return userphoto;
+    public String getPhoto() {
+        return photo;
     }
 
     public List<Following> getFollowings() {

@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tweet")
@@ -13,7 +14,8 @@ public class Tweet implements Serializable {
 
     }
 
-    public Tweet(String content, Long date, String time, Integer likes, User user) {
+    public Tweet(String tweetId, String content, Long date, String time, Integer likes, User user) {
+        this.tweetId = tweetId;
         this.content = content;
         this.date = date;
         this.time = time;
@@ -22,8 +24,10 @@ public class Tweet implements Serializable {
     }
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
     @Column(name = "tweetId")
     private String tweetId;
 
@@ -42,6 +46,14 @@ public class Tweet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_Id", referencedColumnName = "userId")
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tweet_id", referencedColumnName = "tweetId")
+    private List<TweetTrend> tweetTrends;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tweet_id", referencedColumnName = "tweetId")
+    private List<TweetMention> tweetMentions;
 
     public String getTweetId() {
         return tweetId;

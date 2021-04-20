@@ -40,11 +40,11 @@ public class TweetResource {
     }
 
     @PostMapping
-    public ResponseEntity<String> addTweet(@RequestAttribute("userdata") String userDataString, @RequestBody NewTweetDTO newTweetDTO) {
-        Gson gson = new Gson();
-        UserData userData = gson.fromJson(userDataString, UserData.class);
+    public ResponseEntity<String> addTweet(@RequestBody String content) {
+//        Gson gson = new Gson();
+//        UserData userData = gson.fromJson(userDataString, UserData.class);
 
-        newTweetDTO.setUserId(userData.getUserId());
+        NewTweetDTO newTweetDTO = new NewTweetDTO("u123", content);
 
         ResponseModel<Void> responseModel = tweetDal.addTweet(newTweetDTO);
 

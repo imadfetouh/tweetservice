@@ -30,7 +30,7 @@ public class GetTweetsExecuter implements QueryExecuter<List<TweetDTO>> {
         List<TweetDTO> tweetDTOS = new ArrayList<>();
 
         for(Tweet tweet : tweets) {
-            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getUserphoto()));
+            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getPhoto()));
             tweetDTOS.add(tweetDTO);
         }
 

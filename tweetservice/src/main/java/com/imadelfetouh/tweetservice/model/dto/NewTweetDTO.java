@@ -5,7 +5,8 @@ public class NewTweetDTO {
     private String userId;
     private String content;
 
-    public NewTweetDTO(String content) {
+    public NewTweetDTO(String userId, String content) {
+        this.userId = userId;
         this.content = content;
     }
 
