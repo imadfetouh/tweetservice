@@ -5,12 +5,17 @@ import com.imadelfetouh.tweetservice.dal.configuration.SessionType;
 import com.imadelfetouh.tweetservice.dal.queryexecuter.AddTweetExecuter;
 import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTweetsExecuter;
 import com.imadelfetouh.tweetservice.dalinterface.TweetDal;
+import com.imadelfetouh.tweetservice.model.datetime.DateTime;
 import com.imadelfetouh.tweetservice.model.dto.NewTweetDTO;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
+import com.imadelfetouh.tweetservice.model.response.ResponseType;
+import com.imadelfetouh.tweetservice.rabbit.RabbitProducer;
+import com.imadelfetouh.tweetservice.rabbit.producer.AddTweetProducer;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class TweetDalDB implements TweetDal {
@@ -23,7 +28,23 @@ public class TweetDalDB implements TweetDal {
 
     @Override
     public ResponseModel<Void> addTweet(NewTweetDTO newTweetDTO) {
+        Long currentDate = DateTime.getInstance().getCurrentDate();
+        String currentTime = DateTime.getInstance().getCurrentTime();
+
+        String tweetId = UUID.randomUUID().toString();
+
+        newTweetDTO.setTweetId(tweetId);
+        newTweetDTO.setDate(currentDate);
+        newTweetDTO.setTime(currentTime);
+
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
-        return executer.execute(new AddTweetExecuter(newTweetDTO));
+        ResponseModel<Void> responseModel = executer.execute(new AddTweetExecuter(newTweetDTO));
+
+        if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {
+            RabbitProducer rabbitProducer = new RabbitProducer();
+            rabbitProducer.produce(new AddTweetProducer(newTweetDTO));
+        }
+
+        return responseModel;
     }
 }

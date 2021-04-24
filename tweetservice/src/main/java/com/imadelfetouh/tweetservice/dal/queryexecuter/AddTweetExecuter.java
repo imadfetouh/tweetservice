@@ -24,14 +24,9 @@ public class AddTweetExecuter implements QueryExecuter<Void> {
     public ResponseModel<Void> executeQuery(Session session) {
         ResponseModel<Void> responseModel = new ResponseModel<>();
 
-        Long currentDate = DateTime.getInstance().getCurrentDate();
-        String currentTime = DateTime.getInstance().getCurrentTime();
-
         User user = getUser(session);
 
-        String tweetId = UUID.randomUUID().toString();
-
-        Tweet tweet = new Tweet(tweetId, newTweetDTO.getContent(), currentDate, currentTime, 0, user);
+        Tweet tweet = new Tweet(newTweetDTO.getTweetId(), newTweetDTO.getContent(), newTweetDTO.getDate(), newTweetDTO.getTime(), 0, user);
 
         session.persist(tweet);
 
