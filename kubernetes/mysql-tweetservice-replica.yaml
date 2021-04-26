@@ -89,8 +89,8 @@ spec:
           mountPath: /etc/mysql/conf.d
         resources:
           requests:
-            cpu: 500m
-            memory: 1Gi
+            cpu: 100m
+            memory: 256Mi
       - name: xtrabackup
         image: gcr.io/google-samples/xtrabackup:1.0
         ports:
@@ -161,4 +161,4 @@ spec:
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi
