@@ -30,6 +30,7 @@ public class CookieFilter implements Filter {
 
                 httpServletRequest.setAttribute("userdata", userData);
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
+                return;
             }
         }
 
