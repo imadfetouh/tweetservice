@@ -24,7 +24,7 @@ public class GetTweetsExecuter implements QueryExecuter<List<TweetDTO>> {
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT t FROM Tweet t JOIN FETCH t.user WHERE t.user.userId IN (SELECT f.userFollowing.userId FROM Following f WHERE f.user.userId = :userId)");
+        Query query = session.createQuery("SELECT t FROM Tweet t JOIN FETCH t.user WHERE t.user.userId = :userId OR t.user.userId IN (SELECT f.userFollowing.userId FROM Following f WHERE f.user.userId = :userId)");
         query.setParameter("userId", userId);
         List<Tweet> tweets = query.getResultList();
         List<TweetDTO> tweetDTOS = new ArrayList<>();

@@ -7,15 +7,15 @@ public class TweetDTO {
     private Long date;
     private String time;
     private int likes;
-    private UserDTO userDTO;
+    private UserDTO user;
 
-    public TweetDTO(String tweetId, String content, Long date, String time, int likes, UserDTO userDTO) {
+    public TweetDTO(String tweetId, String content, Long date, String time, int likes, UserDTO user) {
         this.tweetId = tweetId;
         this.content = content;
         this.date = date;
         this.time = time;
         this.likes = likes;
-        this.userDTO = userDTO;
+        this.user = user;
     }
 
     public void setTweetId(String tweetId) {
@@ -58,11 +58,11 @@ public class TweetDTO {
         return likes;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    public UserDTO getUser() {
+        return user;
     }
 }
