@@ -44,6 +44,10 @@ public class TweetResource {
         Gson gson = new Gson();
         UserData userData = gson.fromJson(userDataString, UserData.class);
 
+        if(content == null || content.trim().isEmpty() || content.trim().length() > 140) {
+            return ResponseEntity.badRequest().build();
+        }
+
         NewTweetDTO newTweetDTO = new NewTweetDTO(userData.getUserId(), content);
 
         ResponseModel<Void> responseModel = tweetDal.addTweet(newTweetDTO);
