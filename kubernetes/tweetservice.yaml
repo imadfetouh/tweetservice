@@ -24,11 +24,11 @@ spec:
             - name: TWEETSERVICE_MYSQL_MASTER_HOST
               value: mysql-tweetservice-master-service
             - name: TWEETSERVICE_MYSQL_REPLICA_HOST
-              value: mysql-tweetservice-replica-service
+              value: mysql-tweetservice-master-service
             - name: TWEETSERVICE_MYSQL_MASTER_PORT
               value: '3306'
             - name: TWEETSERVICE_MYSQL_REPLICA_PORT
-              value: '3308'
+              value: '3306'
             - name: MYSQL_USER
               value: root
             - name: MYSQL_PASS

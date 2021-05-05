@@ -38,7 +38,8 @@ public class TrendResource {
 
     @GetMapping(value = "/{trend}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TweetDTO>> getTweetTrends(@PathVariable("trend") String trend) {
-        ResponseModel<List<TweetDTO>> responseModel = trendDal.getTweetTrends(trend);
+        String hashtag = "#" + trend;
+        ResponseModel<List<TweetDTO>> responseModel = trendDal.getTweetTrends(hashtag);
 
         if(responseModel.getResponseType().equals(ResponseType.EMPTY)) {
             return ResponseEntity.noContent().build();

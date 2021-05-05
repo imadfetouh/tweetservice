@@ -40,7 +40,7 @@ public class TweetResource {
     }
 
     @PostMapping
-    public ResponseEntity<String> addTweet(@RequestAttribute("userdata") String userDataString, @RequestBody String content) {
+    public ResponseEntity<String> addTweet(@RequestAttribute("userdata") String userDataString, @RequestParam("content") String content) {
         Gson gson = new Gson();
         UserData userData = gson.fromJson(userDataString, UserData.class);
 
