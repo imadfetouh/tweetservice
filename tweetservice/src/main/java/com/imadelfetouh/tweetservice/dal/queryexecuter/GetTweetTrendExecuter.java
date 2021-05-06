@@ -1,6 +1,7 @@
 package com.imadelfetouh.tweetservice.dal.queryexecuter;
 
 import com.imadelfetouh.tweetservice.dal.configuration.QueryExecuter;
+import com.imadelfetouh.tweetservice.dal.ormmodel.Like;
 import com.imadelfetouh.tweetservice.dal.ormmodel.Tweet;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
 import com.imadelfetouh.tweetservice.model.dto.UserDTO;
@@ -14,9 +15,11 @@ import java.util.List;
 
 public class GetTweetTrendExecuter implements QueryExecuter<List<TweetDTO>> {
 
+    private String userId;
     private String trend;
 
-    public GetTweetTrendExecuter(String trend) {
+    public GetTweetTrendExecuter(String userId, String trend) {
+        this.userId = userId;
         this.trend = trend;
     }
 
@@ -24,14 +27,16 @@ public class GetTweetTrendExecuter implements QueryExecuter<List<TweetDTO>> {
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN FETCH tt.tweet.user WHERE tt.trend.name = :trend");
+        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN tt.tweet.user u JOIN FETCH tt.tweet.likes WHERE tt.trend.name = :trend");
         query.setParameter("trend", trend);
 
         List<Tweet> tweets = query.getResultList();
         List<TweetDTO> tweetDTOS = new ArrayList<>();
 
         for(Tweet tweet : tweets) {
-            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getPhoto()));
+            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes().size(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getPhoto()));
+            Like like = tweet.getLikes().stream().filter(l -> l.getUser().getUserId().equals(userId)).findFirst().orElse(null);
+            tweetDTO.setUserLiked((like != null));
             tweetDTOS.add(tweetDTO);
         }
 

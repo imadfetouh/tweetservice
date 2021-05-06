@@ -22,8 +22,8 @@ public class TrendDalDB implements TrendDal {
     }
 
     @Override
-    public ResponseModel<List<TweetDTO>> getTweetTrends(String trend) {
+    public ResponseModel<List<TweetDTO>> getTweetTrends(String userId, String trend) {
         Executer<List<TweetDTO>> executer = new Executer<>(SessionType.READ);
-        return executer.execute(new GetTweetTrendExecuter(trend));
+        return executer.execute(new GetTweetTrendExecuter(userId, trend));
     }
 }

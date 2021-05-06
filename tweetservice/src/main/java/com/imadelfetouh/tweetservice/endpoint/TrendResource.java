@@ -1,17 +1,16 @@
 package com.imadelfetouh.tweetservice.endpoint;
 
+import com.google.gson.Gson;
 import com.imadelfetouh.tweetservice.dalinterface.TrendDal;
 import com.imadelfetouh.tweetservice.model.dto.TrendDTO;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
+import com.imadelfetouh.tweetservice.model.jwt.UserData;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,9 +36,12 @@ public class TrendResource {
     }
 
     @GetMapping(value = "/{trend}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TweetDTO>> getTweetTrends(@PathVariable("trend") String trend) {
+    public ResponseEntity<List<TweetDTO>> getTweetTrends(@RequestAttribute("userdata") String userDataString, @PathVariable("trend") String trend) {
+        Gson gson = new Gson();
+        UserData userData = gson.fromJson(userDataString, UserData.class);
+
         String hashtag = "#" + trend;
-        ResponseModel<List<TweetDTO>> responseModel = trendDal.getTweetTrends(hashtag);
+        ResponseModel<List<TweetDTO>> responseModel = trendDal.getTweetTrends(userData.getUserId(), hashtag);
 
         if(responseModel.getResponseType().equals(ResponseType.EMPTY)) {
             return ResponseEntity.noContent().build();

@@ -1,7 +1,9 @@
 package com.imadelfetouh.tweetservice.dal.queryexecuter;
 
 import com.imadelfetouh.tweetservice.dal.configuration.QueryExecuter;
+import com.imadelfetouh.tweetservice.dal.ormmodel.Like;
 import com.imadelfetouh.tweetservice.dal.ormmodel.Tweet;
+import com.imadelfetouh.tweetservice.dal.ormmodel.User;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
 import com.imadelfetouh.tweetservice.model.dto.UserDTO;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
@@ -30,7 +32,9 @@ public class GetTweetsExecuter implements QueryExecuter<List<TweetDTO>> {
         List<TweetDTO> tweetDTOS = new ArrayList<>();
 
         for(Tweet tweet : tweets) {
-            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getPhoto()));
+            TweetDTO tweetDTO = new TweetDTO(tweet.getTweetId(), tweet.getContent(), tweet.getDate(), tweet.getTime(), tweet.getLikes().size(), new UserDTO(tweet.getUser().getUserId(), tweet.getUser().getUsername(), tweet.getUser().getPhoto()));
+            Like like = tweet.getLikes().stream().filter(l -> l.getUser().getUserId().equals(userId)).findFirst().orElse(null);
+            tweetDTO.setUserLiked((like != null));
             tweetDTOS.add(tweetDTO);
         }
 

@@ -28,6 +28,7 @@ public class SessionReadConfiguration {
         configuration.addAnnotatedClass(TweetMention.class);
         configuration.addAnnotatedClass(TweetTrend.class);
         configuration.addAnnotatedClass(Trend.class);
+        configuration.addAnnotatedClass(Like.class);
 
         sessionFactory = configuration.configure().buildSessionFactory();
     }

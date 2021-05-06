@@ -7,6 +7,7 @@ public class TweetDTO {
     private Long date;
     private String time;
     private int likes;
+    private boolean userLiked;
     private UserDTO user;
 
     public TweetDTO(String tweetId, String content, Long date, String time, int likes, UserDTO user) {
@@ -56,6 +57,14 @@ public class TweetDTO {
 
     public int getLikes() {
         return likes;
+    }
+
+    public void setUserLiked(boolean userLiked) {
+        this.userLiked = userLiked;
+    }
+
+    public boolean isUserLiked() {
+        return userLiked;
     }
 
     public void setUser(UserDTO user) {

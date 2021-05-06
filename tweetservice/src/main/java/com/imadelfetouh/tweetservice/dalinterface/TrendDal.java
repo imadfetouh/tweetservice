@@ -10,5 +10,5 @@ public interface TrendDal {
 
     ResponseModel<List<TrendDTO>> getTrends();
 
-    ResponseModel<List<TweetDTO>> getTweetTrends(String trend);
+    ResponseModel<List<TweetDTO>> getTweetTrends(String userId, String trend);
 }

@@ -10,7 +10,6 @@ import com.imadelfetouh.tweetservice.model.response.ResponseType;
 import org.hibernate.Session;
 
 import javax.persistence.Query;
-import java.util.UUID;
 
 public class AddTweetExecuter implements QueryExecuter<Void> {
 
@@ -26,7 +25,7 @@ public class AddTweetExecuter implements QueryExecuter<Void> {
 
         User user = getUser(session);
 
-        Tweet tweet = new Tweet(newTweetDTO.getTweetId(), newTweetDTO.getContent(), newTweetDTO.getDate(), newTweetDTO.getTime(), 0, user);
+        Tweet tweet = new Tweet(newTweetDTO.getTweetId(), newTweetDTO.getContent(), newTweetDTO.getDate(), newTweetDTO.getTime(), user);
 
         session.persist(tweet);
 

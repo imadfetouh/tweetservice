@@ -4,5 +4,5 @@ import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 
 public interface LikeDal {
 
-    ResponseModel<Void> likeTweet(String tweetId);
+    ResponseModel<Void> likeTweet(String userId, String tweetId);
 }
