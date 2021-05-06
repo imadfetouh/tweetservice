@@ -27,7 +27,7 @@ public class GetTweetTrendExecuter implements QueryExecuter<List<TweetDTO>> {
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN tt.tweet.user u JOIN FETCH tt.tweet.likes WHERE tt.trend.name = :trend");
+        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN tt.tweet.user u WHERE tt.trend.name = :trend");
         query.setParameter("trend", trend);
 
         List<Tweet> tweets = query.getResultList();

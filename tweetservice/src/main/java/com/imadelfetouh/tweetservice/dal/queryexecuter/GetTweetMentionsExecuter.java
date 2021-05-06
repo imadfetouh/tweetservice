@@ -25,7 +25,7 @@ public class GetTweetMentionsExecuter implements QueryExecuter<List<TweetDTO>> {
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT tm.tweet FROM TweetMention tm JOIN tm.tweet.user JOIN FETCH tm.tweet.likes WHERE tm.userMention.userId = :userId");
+        Query query = session.createQuery("SELECT tm.tweet FROM TweetMention tm JOIN tm.tweet.user WHERE tm.userMention.userId = :userId");
         query.setParameter("userId", userId);
 
         List<Tweet> tweets = query.getResultList();
