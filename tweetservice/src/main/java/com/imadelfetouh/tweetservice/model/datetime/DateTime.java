@@ -28,6 +28,18 @@ public class DateTime {
         return calendar.getTimeInMillis() / 1000L;
     }
 
+    public Long getCurrentDateMinusWeek(){
+        Calendar calendar = Calendar.getInstance(timeZone);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        calendar.add(Calendar.DAY_OF_WEEK, -7);
+
+        return calendar.getTimeInMillis() / 1000L;
+    }
+
     public String getCurrentTime(){
         Calendar calendar = Calendar.getInstance(timeZone);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");

@@ -16,9 +16,11 @@ public class GetTrendsExecuter implements QueryExecuter<List<TrendDTO>> {
         ResponseModel<List<TrendDTO>> responseModel = new ResponseModel<>();
 
         Long currentDate = DateTime.getInstance().getCurrentDate();
+        Long lastWeekDate = DateTime.getInstance().getCurrentDateMinusWeek();
 
-        Query query = session.createQuery("SELECT new com.imadelfetouh.tweetservice.model.dto.TrendDTO(t.name) FROM Trend t WHERE t.name IN (SELECT tt.trend.name FROM TweetTrend tt WHERE tt.tweet.date <= :date ORDER BY size(tt.tweet.likes) DESC)");
-        query.setParameter("date", currentDate);
+        Query query = session.createQuery("SELECT new com.imadelfetouh.tweetservice.model.dto.TrendDTO(t.name) FROM Trend t WHERE t.name IN (SELECT tt.trend.name FROM TweetTrend tt WHERE tt.tweet.date BETWEEN :lastWeek AND :currentDate ORDER BY tt.tweet.date DESC)");
+        query.setParameter("lastWeek", lastWeekDate);
+        query.setParameter("currentDate", currentDate);
 
         List<TrendDTO> trendDTOS = query.getResultList();
 
