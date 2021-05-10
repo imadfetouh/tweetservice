@@ -21,6 +21,9 @@ public class TweetResource {
     @Autowired
     private TweetDal tweetDal;
 
+    @Autowired
+    private TweetCheck tweetCheck;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TweetDTO>> getTweets(@RequestAttribute("userdata") String userDataString) {
         Gson gson = new Gson();
@@ -46,6 +49,11 @@ public class TweetResource {
 
         if(content == null || content.trim().isEmpty() || content.trim().length() > 140) {
             return ResponseEntity.badRequest().build();
+        }
+
+        int tweetCheckStatusCode = tweetCheck.check(content);
+        if(tweetCheckStatusCode != 200) {
+            return ResponseEntity.status(tweetCheckStatusCode).build();
         }
 
         NewTweetDTO newTweetDTO = new NewTweetDTO(userData.getUserId(), content);
