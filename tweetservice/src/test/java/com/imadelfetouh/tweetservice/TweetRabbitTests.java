@@ -130,7 +130,7 @@ public class TweetRabbitTests {
 
         Assertions.assertEquals(ResponseType.CORRECT, responseModelTrends.getResponseType());
         Assertions.assertEquals(1, responseModelTrends.getData().size());
-        Assertions.assertEquals("name", responseModelTrends.getData().get(0).getTrend());
+        Assertions.assertEquals("#name", responseModelTrends.getData().get(0).getTrend());
 
     }
 
