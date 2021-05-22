@@ -52,11 +52,11 @@ public class TweetRabbitTests {
 
     @Test
     @Order(2)
-    void addTweetEmpty() throws InterruptedException {
+    void addTweetCorrect() throws InterruptedException {
         Gson gson = new Gson();
         TweetDal tweetDal = new TweetDalDB();
 
-        NewTweetDTO newTweetDTO = new NewTweetDTO("t123", "hello");
+        NewTweetDTO newTweetDTO = new NewTweetDTO("u123", "hello");
         ResponseModel<Void> responseModel = tweetDal.addTweet(newTweetDTO);
 
         Assertions.assertEquals(ResponseType.CORRECT, responseModel.getResponseType());
