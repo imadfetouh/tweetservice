@@ -22,13 +22,7 @@ public class SessionWriteConfiguration {
         configuration.addProperties(properties);
         configuration.getProperties().put(Environment.URL, "jdbc:mysql://"+System.getenv("TWEETSERVICE_MYSQL_MASTER_HOST")+":"+System.getenv("TWEETSERVICE_MYSQL_MASTER_PORT")+"/tweetservice?createDatabaseIfNotExist=true");
 
-        configuration.addAnnotatedClass(User.class);
-        configuration.addAnnotatedClass(Following.class);
-        configuration.addAnnotatedClass(Tweet.class);
-        configuration.addAnnotatedClass(TweetMention.class);
-        configuration.addAnnotatedClass(TweetTrend.class);
-        configuration.addAnnotatedClass(Trend.class);
-        configuration.addAnnotatedClass(Like.class);
+        AddClasses.getInstance().setClasses(configuration);
 
         sessionFactory = configuration.configure().buildSessionFactory();
     }

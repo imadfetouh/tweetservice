@@ -23,7 +23,7 @@ public class DeleteUserDeliverCallback implements DeliverCallback {
             executer.execute(new DeleteUserExecuter(userId));
         }
         catch (Exception e) {
-            logger.log(Level.ALL, e.getMessage());
+            logger.severe(e.getMessage());
         }
     }
 }

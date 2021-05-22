@@ -3,7 +3,8 @@ package com.imadelfetouh.tweetservice.dal.db;
 import com.imadelfetouh.tweetservice.dal.configuration.Executer;
 import com.imadelfetouh.tweetservice.dal.configuration.SessionType;
 import com.imadelfetouh.tweetservice.dal.queryexecuter.AddTweetExecuter;
-import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTweetsExecuter;
+import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTweetExecuter;
+import com.imadelfetouh.tweetservice.dal.queryexecuter.TweetType;
 import com.imadelfetouh.tweetservice.dalinterface.TweetDal;
 import com.imadelfetouh.tweetservice.model.datetime.DateTime;
 import com.imadelfetouh.tweetservice.model.dto.NewTweetDTO;
@@ -23,7 +24,7 @@ public class TweetDalDB implements TweetDal {
     @Override
     public ResponseModel<List<TweetDTO>> getTweets(String userId) {
         Executer<List<TweetDTO>> executer = new Executer<>(SessionType.READ);
-        return executer.execute(new GetTweetsExecuter(userId));
+        return executer.execute(new GetTweetExecuter(userId, null, TweetType.STANDARD));
     }
 
     @Override

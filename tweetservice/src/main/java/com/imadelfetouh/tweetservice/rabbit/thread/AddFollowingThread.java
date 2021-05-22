@@ -24,15 +24,7 @@ public class AddFollowingThread implements Runnable {
 
     @Override
     public void run() {
-        while(true) {
-            try {
-                RabbitNonStopConsumer rabbitNonStopConsumer = new RabbitNonStopConsumer();
-                DefaultConsumer defaultConsumer = new DefaultConsumer(queue_name, exchange_name, deliverCallback);
-
-                rabbitNonStopConsumer.consume(defaultConsumer);
-            } catch (Exception e) {
-                logger.log(Level.ALL, e.getMessage());
-            }
-        }
+        StartConsuming startConsuming = new StartConsuming(queue_name, exchange_name, deliverCallback);
+        startConsuming.start();
     }
 }

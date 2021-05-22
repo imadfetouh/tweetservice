@@ -3,7 +3,8 @@ package com.imadelfetouh.tweetservice.dal.db;
 import com.imadelfetouh.tweetservice.dal.configuration.Executer;
 import com.imadelfetouh.tweetservice.dal.configuration.SessionType;
 import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTrendsExecuter;
-import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTweetTrendExecuter;
+import com.imadelfetouh.tweetservice.dal.queryexecuter.GetTweetExecuter;
+import com.imadelfetouh.tweetservice.dal.queryexecuter.TweetType;
 import com.imadelfetouh.tweetservice.dalinterface.TrendDal;
 import com.imadelfetouh.tweetservice.model.dto.TrendDTO;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
@@ -24,6 +25,6 @@ public class TrendDalDB implements TrendDal {
     @Override
     public ResponseModel<List<TweetDTO>> getTweetTrends(String userId, String trend) {
         Executer<List<TweetDTO>> executer = new Executer<>(SessionType.READ);
-        return executer.execute(new GetTweetTrendExecuter(userId, trend));
+        return executer.execute(new GetTweetExecuter(userId, trend, TweetType.TREND));
     }
 }

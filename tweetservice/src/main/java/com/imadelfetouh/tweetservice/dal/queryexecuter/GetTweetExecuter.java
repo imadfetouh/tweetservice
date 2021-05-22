@@ -13,22 +13,36 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetTweetTrendExecuter implements QueryExecuter<List<TweetDTO>> {
+public class GetTweetExecuter implements QueryExecuter<List<TweetDTO>> {
 
     private String userId;
     private String trend;
+    private TweetType tweetType;
 
-    public GetTweetTrendExecuter(String userId, String trend) {
+    public GetTweetExecuter(String userId, String trend, TweetType tweetType) {
         this.userId = userId;
         this.trend = trend;
+        this.tweetType = tweetType;
     }
 
     @Override
     public ResponseModel<List<TweetDTO>> executeQuery(Session session) {
         ResponseModel<List<TweetDTO>> responseModel = new ResponseModel<>();
 
-        Query query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN tt.tweet.user u WHERE tt.trend.name = :trend");
-        query.setParameter("trend", trend);
+        Query query = null;
+
+        if(tweetType.equals(TweetType.STANDARD)) {
+            query = session.createQuery("SELECT t FROM Tweet t JOIN FETCH t.user WHERE t.user.userId = :userId OR t.user.userId IN (SELECT f.userFollowing.userId FROM Following f WHERE f.user.userId = :userId)");
+            query.setParameter("userId", userId);
+        }
+        else if(tweetType.equals(TweetType.MENTION)) {
+            query = session.createQuery("SELECT tm.tweet FROM TweetMention tm JOIN tm.tweet.user WHERE tm.userMention.userId = :userId");
+            query.setParameter("userId", userId);
+        }
+        else {
+            query = session.createQuery("SELECT tt.tweet FROM TweetTrend tt JOIN tt.tweet.user u WHERE tt.trend.name = :trend");
+            query.setParameter("trend", trend);
+        }
 
         List<Tweet> tweets = query.getResultList();
         List<TweetDTO> tweetDTOS = new ArrayList<>();
