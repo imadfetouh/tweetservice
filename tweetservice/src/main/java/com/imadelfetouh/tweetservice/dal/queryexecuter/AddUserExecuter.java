@@ -2,24 +2,24 @@ package com.imadelfetouh.tweetservice.dal.queryexecuter;
 
 import com.imadelfetouh.tweetservice.dal.configuration.QueryExecuter;
 import com.imadelfetouh.tweetservice.dal.ormmodel.User;
-import com.imadelfetouh.tweetservice.model.dto.NewUserDTO;
+import com.imadelfetouh.tweetservice.model.dto.UserDTO;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
 import org.hibernate.Session;
 
 public class AddUserExecuter implements QueryExecuter<Void> {
 
-    private NewUserDTO newUserDTO;
+    private UserDTO userDTO;
 
-    public AddUserExecuter(NewUserDTO newUserDTO) {
-        this.newUserDTO = newUserDTO;
+    public AddUserExecuter(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 
     @Override
     public ResponseModel<Void> executeQuery(Session session) {
         ResponseModel<Void> responseModel = new ResponseModel<>();
 
-        User user = new User(newUserDTO.getUserId(), newUserDTO.getUsername(), newUserDTO.getPhoto());
+        User user = new User(userDTO.getUserId(), userDTO.getUsername(), userDTO.getPhoto());
 
         session.persist(user);
 

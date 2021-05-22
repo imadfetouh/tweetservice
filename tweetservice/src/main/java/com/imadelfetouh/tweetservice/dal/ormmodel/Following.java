@@ -7,6 +7,15 @@ import java.io.Serializable;
 @Table(name = "following")
 public class Following implements Serializable {
 
+    public Following() {
+
+    }
+
+    public Following(User user, User userFollowing) {
+        this.user = user;
+        this.userFollowing = userFollowing;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
