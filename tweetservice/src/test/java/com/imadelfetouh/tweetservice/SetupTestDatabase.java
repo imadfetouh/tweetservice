@@ -11,9 +11,11 @@ public class SetupTestDatabase implements QueryExecuter<Void> {
     public ResponseModel<Void> executeQuery(Session session) {
         ResponseModel<Void> responseModel = new ResponseModel<>();
 
-        User user = new User("u123", "imad", "imad.jpg");
+        User user1 = new User("u123", "imad", "imad.jpg");
+        User user2 = new User("u1234", "peter", "imad.jpg");
 
-        session.persist(user);
+        session.persist(user1);
+        session.persist(user2);
 
         session.getTransaction().commit();
 

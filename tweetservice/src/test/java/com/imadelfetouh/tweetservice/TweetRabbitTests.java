@@ -11,6 +11,11 @@ import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
 import com.imadelfetouh.tweetservice.model.jwt.UserData;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
+import com.imadelfetouh.tweetservice.rabbit.RabbitConfiguration;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +44,24 @@ public class TweetRabbitTests {
     static void setupDatabase() {
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
         executer.execute(new SetupTestDatabase());
+
+        Channel channel = RabbitConfiguration.getInstance().getChannel();
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().correlationId("testcorr").build();
+
+        try {
+            String user1 = new JSONObject()
+                    .put("userId", "u123").put("username", "imad").put("password", "imad").put("role", "USER").put("photo", "imad.jpg")
+                    .put("profile", new JSONObject().put("profileId", "p123").put("bio", "Hello").put("location", "Helmond").put("website", "imad.nl")).toString();
+
+            String user2 = new JSONObject()
+                    .put("userId", "u1234").put("username", "peter").put("password", "peter").put("role", "USER").put("photo", "peter.jpg")
+                    .put("profile", new JSONObject().put("profileId", "p1234").put("bio", "Hello").put("location", "Helmond").put("website", "peter.nl")).toString();
+
+            channel.basicPublish("adduserexchange", "", properties, user1.getBytes());
+            channel.basicPublish("adduserexchange", "", properties, user2.getBytes());
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
