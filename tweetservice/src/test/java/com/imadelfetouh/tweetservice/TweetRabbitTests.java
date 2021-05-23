@@ -163,7 +163,7 @@ public class TweetRabbitTests {
     void addLike() throws InterruptedException {
         Gson gson = new Gson();
         LikeDal likeDal = new LikeDalDB();
-        ResponseModel<Void> responseModel = likeDal.likeTweet("u1234", "t123");
+        ResponseModel<Void> responseModel = likeDal.likeTweet("u1234", getTweetId());
 
         Assertions.assertEquals(ResponseType.CORRECT, responseModel.getResponseType());
 
@@ -184,5 +184,11 @@ public class TweetRabbitTests {
 
         Assertions.assertEquals(200, responseEntity.getStatusCode().value());
         Assertions.assertEquals(1, jsonObject.getAsJsonArray("tweets").get(0).getAsJsonObject().get("likes").getAsInt());
+    }
+
+    String getTweetId() {
+        TweetDal tweetDal = new TweetDalDB();
+        ResponseModel<List<TweetDTO>> responseModel = tweetDal.getTweets("u123");
+        return responseModel.getData().get(0).getTweetId();
     }
 }
