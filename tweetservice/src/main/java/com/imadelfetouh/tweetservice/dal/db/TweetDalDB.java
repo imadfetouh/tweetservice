@@ -42,7 +42,7 @@ public class TweetDalDB implements TweetDal {
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
         ResponseModel<Void> responseModel = executer.execute(new AddTweetExecuter(newTweetDTO));
 
-        if(responseModel.getResponseType().equals(ResponseType.CORRECT) && RabbitConfiguration.getInstance().getConnection().isOpen()) {
+        if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {
             RabbitProducer rabbitProducer = new RabbitProducer();
             rabbitProducer.produce(new AddTweetProducer(newTweetDTO));
         }

@@ -20,7 +20,7 @@ public class LikeDalDB implements LikeDal {
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
         ResponseModel<Void> responseModel = executer.execute(new LikeTweetExecuter(userId, tweetId));
 
-        if(responseModel.getResponseType().equals(ResponseType.CORRECT) && RabbitConfiguration.getInstance().getConnection().isOpen()) {
+        if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {
             LikeDTO likeDTO = new LikeDTO(userId, tweetId);
             RabbitProducer rabbitProducer = new RabbitProducer();
             rabbitProducer.produce(new AddLikeProducer(likeDTO));
