@@ -11,6 +11,7 @@ import com.imadelfetouh.tweetservice.model.dto.NewTweetDTO;
 import com.imadelfetouh.tweetservice.model.dto.TweetDTO;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
+import com.imadelfetouh.tweetservice.rabbit.RabbitConfiguration;
 import com.imadelfetouh.tweetservice.rabbit.RabbitProducer;
 import com.imadelfetouh.tweetservice.rabbit.producer.AddTweetProducer;
 import org.springframework.stereotype.Repository;
@@ -41,7 +42,7 @@ public class TweetDalDB implements TweetDal {
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
         ResponseModel<Void> responseModel = executer.execute(new AddTweetExecuter(newTweetDTO));
 
-        if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {
+        if(responseModel.getResponseType().equals(ResponseType.CORRECT) && RabbitConfiguration.getInstance().getConnection().isOpen()) {
             RabbitProducer rabbitProducer = new RabbitProducer();
             rabbitProducer.produce(new AddTweetProducer(newTweetDTO));
         }

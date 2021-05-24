@@ -1,6 +1,8 @@
 package com.imadelfetouh.tweetservice.security;
 
+import com.google.gson.Gson;
 import com.imadelfetouh.tweetservice.jwt.ValidateJWTToken;
+import com.imadelfetouh.tweetservice.model.jwt.UserData;
 import com.imadelfetouh.tweetservice.rabbit.RabbitConfiguration;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +35,7 @@ public class CookieFilter implements Filter {
                     return;
                 }
 
-                if(RabbitConfiguration.getInstance().getConnection() == null && !httpServletRequest.getMethod().equals("GET")) {
+                if(!RabbitConfiguration.getInstance().getConnection().isOpen() && !httpServletRequest.getMethod().equals("GET")) {
                     httpServletResponse.setStatus(503);
                     return;
                 }

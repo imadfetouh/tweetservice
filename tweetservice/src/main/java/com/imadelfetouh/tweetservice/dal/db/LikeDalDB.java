@@ -7,6 +7,7 @@ import com.imadelfetouh.tweetservice.dalinterface.LikeDal;
 import com.imadelfetouh.tweetservice.model.dto.LikeDTO;
 import com.imadelfetouh.tweetservice.model.response.ResponseModel;
 import com.imadelfetouh.tweetservice.model.response.ResponseType;
+import com.imadelfetouh.tweetservice.rabbit.RabbitConfiguration;
 import com.imadelfetouh.tweetservice.rabbit.RabbitProducer;
 import com.imadelfetouh.tweetservice.rabbit.producer.AddLikeProducer;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class LikeDalDB implements LikeDal {
         Executer<Void> executer = new Executer<>(SessionType.WRITE);
         ResponseModel<Void> responseModel = executer.execute(new LikeTweetExecuter(userId, tweetId));
 
-        if(responseModel.getResponseType().equals(ResponseType.CORRECT)) {
+        if(responseModel.getResponseType().equals(ResponseType.CORRECT) && RabbitConfiguration.getInstance().getConnection().isOpen()) {
             LikeDTO likeDTO = new LikeDTO(userId, tweetId);
             RabbitProducer rabbitProducer = new RabbitProducer();
             rabbitProducer.produce(new AddLikeProducer(likeDTO));
