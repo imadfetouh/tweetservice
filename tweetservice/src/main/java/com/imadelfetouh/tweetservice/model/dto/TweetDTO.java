@@ -1,10 +1,12 @@
 package com.imadelfetouh.tweetservice.model.dto;
 
+import com.imadelfetouh.tweetservice.model.datetime.DateTime;
+
 public class TweetDTO {
 
     private String tweetId;
     private String content;
-    private Long date;
+    private String date;
     private String time;
     private int likes;
     private boolean userLiked;
@@ -13,7 +15,7 @@ public class TweetDTO {
     public TweetDTO(String tweetId, String content, Long date, String time, int likes, UserDTO user) {
         this.tweetId = tweetId;
         this.content = content;
-        this.date = date;
+        this.date = DateTime.getInstance().timeStampToString(date);
         this.time = time;
         this.likes = likes;
         this.user = user;
@@ -35,11 +37,11 @@ public class TweetDTO {
         return content;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 

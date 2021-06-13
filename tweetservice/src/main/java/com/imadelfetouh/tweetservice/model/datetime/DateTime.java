@@ -1,5 +1,7 @@
 package com.imadelfetouh.tweetservice.model.datetime;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +46,14 @@ public class DateTime {
         Calendar calendar = Calendar.getInstance(timeZone);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         return simpleDateFormat.format(calendar.getTime());
+    }
+
+    public String timeStampToString(Long tweetDate) {
+        Timestamp timestamp = new Timestamp(tweetDate * 1000L);
+        Date date = new Date(timestamp.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DATE) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR);
     }
 
 }
